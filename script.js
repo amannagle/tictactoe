@@ -53,10 +53,10 @@ const game = (function (){
         setTimeout(function(){
             alert(`gameover ${last_turn.name} won`); 
        }, 100);
-       else if (checkresult() === 'success')
+       if(checkresult() === 'draw')
        setTimeout(function(){
-        alert(`gameover : Its a draw`);  
-   }, 100);
+           alert(`gameover its a draw`); 
+      }, 100);
     }
     
     function checkresult()
@@ -89,13 +89,13 @@ const game = (function (){
             {
                 return 'success';
             }
-        const isdraw = gameArray.every(function(element){
-                if(element == 'X' || element == 'O')
-                return true;
-                return false;
-            })
-        if(isdraw)
+        for(let i=0;i<9;i++)
+        {
+            if(gameArray[i]!= 'X' && gameArray[i] != 'O')
+            break;
+            if(i == 8)
             return 'draw';
+        }
     }
 })();
 
