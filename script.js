@@ -1,10 +1,12 @@
-(function gameboard(){
-    const gameArray = ['o','x','o','x','x','e','x','x','x'];
+const game = (function gameboard(){
+    const gameArray = ['e','e','e','e','e','e','e','e','e'];
     console.log('gameboard running');
     //calls
     render();
     //domelements
-    current_turn='player1';
+    const player1 = player('player1','player','O');
+    const player2 = player('player2','player','X');
+    current_turn=player1;
     const cells = document.querySelectorAll('.cell');
     //listeners
     cells.forEach((cell)=>{
@@ -12,8 +14,7 @@
         cell.addEventListener('click',updateCell);
     })
     //functions
-    const player1 = player('player1','player','O');
-    const player2 = player('player2','player','X');
+    
     function searchCell(index)
     {
         return (document.querySelector(`div[index='${index}']`));
@@ -40,15 +41,12 @@
 
     function updateCell(e)
     {
-        if(current_turn == 'player1')
-        {
-        e.target.textContent=player1.sign;
-        current_turn ='player2';
-        }
-        else
-        e.target.textContent=player2.sign;
+        index=e.target.getAttribute('index');
+        gameArray[index]=current_turn.sign;
+        current_turn = current_turn==player1?player2:player1;
+        console.log(gameArray);
+        render();
     }
-
-
+ 
 })();
 
