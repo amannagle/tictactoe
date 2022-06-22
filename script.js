@@ -1,5 +1,5 @@
-const game = (function gameboard(){
-    const gameArray = ['e','e','e','e','e','e','e','e','e'];
+const game = (function (){
+    const gameArray = [undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined];
     console.log('gameboard running');
     //calls
     render();
@@ -28,7 +28,7 @@ const game = (function gameboard(){
     {
         for(let i=0;i<gameArray.length;i++)
         {
-            if(gameArray[i]=='e')
+            if(typeof(gameArray[i])=='undefined')
             {
                 searchCell(i).textContent='';
             }
@@ -44,9 +44,28 @@ const game = (function gameboard(){
         index=e.target.getAttribute('index');
         gameArray[index]=current_turn.sign;
         current_turn = current_turn==player1?player2:player1;
-        console.log(gameArray);
         render();
     }
- 
+    
+    function checkresult()
+    {
+        let flag=0;
+        for(let i=0; i<9;i+=3)
+        {
+            if(gameArray[i]==gameArray[i+1] && gameArray[i] == gameArray[i+2])
+            {
+                flag=1;
+            }
+        }
+
+        for(let i=0; i<3;i++)
+        {
+            if(gameArray[i]==gameArray[i+3] && gameArray[i] == gameArray[i+6])
+            {
+                flag=1;
+            }
+        }
+        
+    }
 })();
 
