@@ -52,18 +52,22 @@ const game = (function (){
         if(checkresult() === 'success')
         setTimeout(function(){
             alert(`gameover ${last_turn.name} won`); 
-       }, 500);
+       }, 100);
+       else if (checkresult() === 'success')
+       setTimeout(function(){
+        alert(`gameover : Its a draw`);  
+   }, 100);
     }
     
     function checkresult()
     {
-        let flag=0;
+        
+        
         for(let i=0; i<9;i+=3)
         {
             if((gameArray[i] == gameArray[i+1] && gameArray[i] == gameArray[i+2]) && (typeof(gameArray[i])!='undefined' && (typeof(gameArray[i+2])!='undefined' && typeof(gameArray[i+3])!='undefined')))
             {
-                flag=1;
-                break;
+                return 'success';
             }
 
         }
@@ -72,13 +76,26 @@ const game = (function (){
         {
             if((gameArray[i]==gameArray[i+3] && gameArray[i] == gameArray[i+6]) && (typeof(gameArray[i])!='undefined' && (typeof(gameArray[i+3])!='undefined' && typeof(gameArray[i+6])!='undefined')))
             {
-                flag=1;
+                return 'success';
             }
         }
-        if(flag == 1)
-        {
-            return 'success';
-        }
+        for(let i=0; i<2;i+=2)
+        
+        if((gameArray[0]==gameArray[4] && gameArray[0] == gameArray[8]) && (typeof(gameArray[0])!='undefined' && (typeof(gameArray[4])!='undefined' && typeof(gameArray[8])!='undefined')))
+            {
+                return 'success';
+            }
+        if((gameArray[2]==gameArray[4] && gameArray[2] == gameArray[6]) && (typeof(gameArray[2])!='undefined' && (typeof(gameArray[4])!='undefined' && typeof(gameArray[6])!='undefined')))
+            {
+                return 'success';
+            }
+        const isdraw = gameArray.every(function(element){
+                if(element == 'X' || element == 'O')
+                return true;
+                return false;
+            })
+        if(isdraw)
+            return 'draw';
     }
 })();
 
