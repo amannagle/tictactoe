@@ -6,14 +6,24 @@ const game = (function (){
     const player2 = player('player 2','player','X');
     let last_turn=player2;
     let current_turn=player1;
+    const start_button = document.querySelector('#game-start');
     const cells = document.querySelectorAll('.cell');
+    const board = document.querySelector('.board');
+    const select_player_div = document.querySelector('.select-player');
     //listeners
+    start_button.addEventListener('click',gameStart);
+    player_select = document.querySelector('#player-select');
     cells.forEach((cell)=>{
         const index = cell.getAttribute('index');
         cell.addEventListener('click',updateCell);
     })
     //functions
-    
+    function gameStart()
+    {
+        const opponent = player_select.value;
+        player2.type=opponent;
+        render();
+    }
     function searchCell(index)
     {
         return (document.querySelector(`div[index='${index}']`));
@@ -25,7 +35,8 @@ const game = (function (){
     }
     function render()
     {
-        console.log('call to render')
+        board.style['display']='grid';
+        select_player_div.style['display']='none';
         for(let i=0;i<gameArray.length;i++)
         {
             if(typeof(gameArray[i])=='undefined')
