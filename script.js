@@ -22,6 +22,8 @@ const game = (function (){
     {
         const opponent = player_select.value;
         player2.type=opponent;
+        opponent=='ai'?player2.name='AI':player2.name='player2';
+        console.log(player2);
         render();
     }
     function searchCell(index)
@@ -55,30 +57,50 @@ const game = (function (){
         index=e.target.getAttribute('index');
         if(typeof(gameArray[index]) != 'undefined')
         return;
+        if(current_turn == player1 && player2.type =='ai')
+        {
+            gameArray[index]=current_turn.sign;
+            render();
+            last_turn=player1;
+            current_turn=player2;
+            checkresult();
+            aimove();
+        }
+        else
+        {
         gameArray[index]=current_turn.sign;
         render();
-        console.log(gameArray[index]);
         last_turn=current_turn;
         current_turn = current_turn==player1?player2:player1;
-        if(checkresult() === 'success')
-        setTimeout(function(){
-            alert(`gameover ${last_turn.name} won`); 
-       }, 100);
-       if(checkresult() === 'draw')
-       setTimeout(function(){
-           alert(`gameover its a draw`); 
-      }, 100);
+        checkresult();
+        }
+        
     }
     
+
+    function aimove()
+    {
+        let cell_number;
+        do
+        {
+            cell_number=Math.floor(Math.random()*9);
+        }
+        while(typeof(gameArray[cell_number]) != 'undefined')
+        gameArray[cell_number]=player2.sign;
+        last_turn=current_turn;
+        current_turn=player1;
+        render();
+        checkresult();
+    }
     function checkresult()
     {
         
-        
+        let result='';
         for(let i=0; i<9;i+=3)
         {
-            if((gameArray[i] == gameArray[i+1] && gameArray[i] == gameArray[i+2]) && (typeof(gameArray[i])!='undefined' && (typeof(gameArray[i+2])!='undefined' && typeof(gameArray[i+3])!='undefined')))
+            if((gameArray[i]==gameArray[i+1] && gameArray[i] == gameArray[i+2]) && (typeof(gameArray[i])!='undefined' && (typeof(gameArray[i+1])!='undefined' && typeof(gameArray[i+2])!='undefined')))
             {
-                return 'success';
+                result='success';
             }
 
         }
@@ -87,25 +109,33 @@ const game = (function (){
         {
             if((gameArray[i]==gameArray[i+3] && gameArray[i] == gameArray[i+6]) && (typeof(gameArray[i])!='undefined' && (typeof(gameArray[i+3])!='undefined' && typeof(gameArray[i+6])!='undefined')))
             {
-                return 'success';
+                result = 'success';
             }
         }
         for(let i=0; i<2;i+=2)
         
         if((gameArray[0]==gameArray[4] && gameArray[0] == gameArray[8]) && (typeof(gameArray[0])!='undefined' && (typeof(gameArray[4])!='undefined' && typeof(gameArray[8])!='undefined')))
             {
-                return 'success';
+                result = 'success';
             }
         if((gameArray[2]==gameArray[4] && gameArray[2] == gameArray[6]) && (typeof(gameArray[2])!='undefined' && (typeof(gameArray[4])!='undefined' && typeof(gameArray[6])!='undefined')))
             {
-                return 'success';
+                result='success';
             }
         for(let i=0;i<9;i++)
         {
             if(gameArray[i]!= 'X' && gameArray[i] != 'O')
             break;
             if(i == 8)
-            return 'draw';
+            result='draw';
+        }
+        if(result == 'success')
+        {
+            alert(`${last_turn.name} won`);
+        }
+        else if (result == 'draw')
+        {
+            alert(`game drawn`)
         }
     }
 })();
