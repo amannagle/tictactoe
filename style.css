@@ -2,14 +2,13 @@ main
 {
     height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .board
 {
-    display: none;
+    display: grid;
     grid-template-columns: 200px 200px 200px;
     grid-template-rows: 200x 200px 200x;
     border: 4px solid black;
@@ -36,7 +35,8 @@ main
 
 header
 {
-    display: flex;
+
+    display: none;
     align-items: center;
     margin: 20px;
 }
@@ -50,4 +50,32 @@ header
     color: white;
     height: 80px;
     font-size: 25px;
+}
+
+main
+{
+    display: flex;
+}
+
+img
+{
+    height: 250px;
+    width: 250px;
+    mix-blend-mode: multiply;
+    border: 5px solid black;
+    margin : 10px 100px;
+}
+/* img:hover
+{
+    transform: scale(1.15);
+} */
+.player
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.player .imagecaption
+{
+    text-align: center;
 }

@@ -1,5 +1,5 @@
 const game = (function (){
-    const gameArray = [undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined];
+    let gameArray = [undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined];
     //calls
     //domelements
     const player1 = player('player 1','player','O');
@@ -132,11 +132,16 @@ const game = (function (){
         if(result == 'success')
         {
             alert(`${last_turn.name} won`);
+            gameArray=[undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined];
+            render();
         }
         else if (result == 'draw')
         {
             alert(`game drawn`)
+            gameArray=[undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined];
+            render();
         }
+        
     }
 })();
 
