@@ -7,6 +7,7 @@ const game = (function (){
     let last_turn=player2;
     let current_turn=player1;
     let round=0;
+    const restart_button = document.querySelector('#play-again');
     const start_button = document.querySelector('#game-start');
     const cells = document.querySelectorAll('.cell');
     const board = document.querySelector('.board');
@@ -60,6 +61,11 @@ const game = (function (){
     function render()
     {
         checkGame();
+        if(checkGame() == 'gameover')
+        {
+            restartGame();
+            return;
+        }
         winner_div.style['display']='none';
         board.style['display']='grid';
         select_player_div.style['display']='none';
@@ -85,7 +91,9 @@ const game = (function (){
         if(player1.score == 3 || player2.score == 3)
         {
             let winner = player1.score>player2.score?player1.name:player2.name;
-            console.log(`this dude won ${winner}`)
+            winner_div.style['display']='flex';
+            winner_para.textContent=`${winner} has won the game`;
+            return 'gameover';
         }
     }
     function updateCell(e)
@@ -129,6 +137,10 @@ const game = (function (){
         render();
         checkresult();
     }
+    function restartGame()
+    {
+        restart_button.style['display']='block';
+    }
     function announcewinner(winner)
     {
         if (winner == 'draw')
@@ -168,7 +180,7 @@ const game = (function (){
             {
                 result='success';
             }
-        for(let i=0;i<9;i++)
+        for(let i=0;i<9;i++ && result !='success')
         {
             if(gameArray[i]!= 'X' && gameArray[i] != 'O')
             break;
