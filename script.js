@@ -15,6 +15,10 @@ const game = (function (){
     const score = document.querySelector('.score');
     const player1_score = document.querySelector('#player1score');
     const player2_score = document.querySelector('#player2score');
+    const player1_para = document.querySelector('#player1');
+    const player2_para = document.querySelector('#player2');
+    const player1_input = document.querySelector('#player1_name');
+    const player2_input = document.querySelector('#player2_name');
     const select_player_div = document.querySelector('.select-player');
     const winner_div = document.querySelector('.winnerdiv');
     const winner_para = winner_div.firstChild;
@@ -32,7 +36,16 @@ const game = (function (){
         current_turn=player1;
         const opponent = player_select.value;
         player2.type=opponent;
-        opponent=='ai'?player2.name='AI':player2.name='player2';
+        if(player1_input.value !='')
+        {
+            player1.name=player1_input.value;
+        }
+        if(player2_input.value !='')
+        {
+            player2.name=player2_input.value;
+        }
+        player1_para.textContent=player1.name;
+        player2_para.textContent=player2.name;
         render();
     }
     function searchCell(index)
@@ -121,7 +134,7 @@ const game = (function (){
         if (winner == 'draw')
         {
             winner_div.style['display']='flex';
-            winner_para.textContent=`Round ${round} was a draw}`
+            winner_para.textContent=`Round ${round} was a draw`
             return;   
         }
         winner_div.style['display']='flex';

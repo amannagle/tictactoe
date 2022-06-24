@@ -15,12 +15,21 @@
         <header class="choose">
             <h2 class="game name"></h2>
             <div class="select-player">
-                <label for="player-select">Choose Your opponent</label>
-                <select name="player-select" id="player-select">
-                    <option value="player2">Player 2</option>
-                    <option value="ai">AI</option>
-                </select>
-            
+                <div class="form-element">
+                    <label for="player-select">Choose Your opponent</label>
+                    <select name="player-select" id="player-select">
+                        <option value="player2">Player 2</option>
+                        <option value="ai">AI</option>
+                    </select>
+                </div>
+                <div class="form-element">
+                    <label for="player1_name">Player 1:</label>
+                    <input type="text" id="player1_name">
+                </div>
+                <div class="form-element">
+                    <label for="player2_name">Player 2:</label>
+                    <input type="text" id="player2_name">
+                </div>
             <button id="game-start">
                 start game
             </button>
