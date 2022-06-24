@@ -23,6 +23,7 @@ const game = (function (){
     const select_player_div = document.querySelector('.select-player');
     const winner_div = document.querySelector('.winnerdiv');
     const winner_para = winner_div.firstChild;
+    const myform = document.getElementById('myform');
     //listeners
     start_button.addEventListener('click',gameStart);
     player_select = document.querySelector('#player-select');
@@ -60,10 +61,9 @@ const game = (function (){
     }
     function render()
     {
-        checkGame();
         if(checkGame() == 'gameover')
         {
-            restartGame();
+            display_restart();
             return;
         }
         winner_div.style['display']='none';
@@ -137,9 +137,25 @@ const game = (function (){
         render();
         checkresult();
     }
-    function restartGame()
+
+    function display_restart()
     {
         restart_button.style['display']='block';
+        restart_button.addEventListener('click',restartGame);
+    }
+    function restartGame()
+    {
+        myform.reset();
+        restart_button.style['display']='none';
+        winner_div.style['display']='flex';
+        board.style['display']='none';
+        select_player_div.style['display']='flex';
+        header.style['display']='flex';
+        main.style['display']='none';
+        score.style['display']='none';
+        player1.score=0;
+        player2.score=0;
+        round=0;
     }
     function announcewinner(winner)
     {
@@ -202,6 +218,7 @@ const game = (function (){
         }
         else if (result == 'draw')
         {
+            round++;
             announcewinner('draw');
             gameArray=[undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined];
             setTimeout(function(){
