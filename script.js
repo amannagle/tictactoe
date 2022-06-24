@@ -6,6 +6,7 @@ const game = (function (){
     const player2 = player('player 2','player','X',0);
     let last_turn=player2;
     let current_turn=player1;
+    let round=0;
     const start_button = document.querySelector('#game-start');
     const cells = document.querySelectorAll('.cell');
     const board = document.querySelector('.board');
@@ -15,6 +16,8 @@ const game = (function (){
     const player1_score = document.querySelector('#player1score');
     const player2_score = document.querySelector('#player2score');
     const select_player_div = document.querySelector('.select-player');
+    const winner_div = document.querySelector('.winnerdiv');
+    const winner_para = winner_div.firstChild;
     //listeners
     start_button.addEventListener('click',gameStart);
     player_select = document.querySelector('#player-select');
@@ -25,6 +28,8 @@ const game = (function (){
     //functions
     function gameStart()
     {
+        last_turn=player2;
+        current_turn=player1;
         const opponent = player_select.value;
         player2.type=opponent;
         opponent=='ai'?player2.name='AI':player2.name='player2';
@@ -42,6 +47,7 @@ const game = (function (){
     function render()
     {
         checkGame();
+        winner_div.style['display']='none';
         board.style['display']='grid';
         select_player_div.style['display']='none';
         header.style['display']='none';
@@ -63,10 +69,10 @@ const game = (function (){
     }
     function checkGame()
     {
-        if(player1.score == 3 || player2.score ==3)
+        if(player1.score == 3 || player2.score == 3)
         {
             let winner = player1.score>player2.score?player1.name:player2.name;
-            alert(`game is over ${winner} won`)
+            console.log(`this dude won ${winner}`)
         }
     }
     function updateCell(e)
@@ -80,7 +86,8 @@ const game = (function (){
             render();
             last_turn=player1;
             current_turn=player2;
-            checkresult();
+            let result = checkresult();
+            if(result !='draw' && result!='win')
             aimove();
         }
         else
@@ -108,6 +115,17 @@ const game = (function (){
         current_turn=player1;
         render();
         checkresult();
+    }
+    function announcewinner(winner)
+    {
+        if (winner == 'draw')
+        {
+            winner_div.style['display']='flex';
+            winner_para.textContent=`Round ${round} was a draw}`
+            return;   
+        }
+        winner_div.style['display']='flex';
+        winner_para.textContent=`${winner} has won round ${round}`
     }
     function checkresult()
     {
@@ -147,17 +165,24 @@ const game = (function (){
         if(result == 'success')
         {
             last_turn.score++;
-            alert(`${last_turn.name} won`);
-            last_turn=current_turn;
-            current_turn = current_turn==player1?player2:player1;
+            round++;
+            const winner = last_turn.name;
+            announcewinner(winner);
             gameArray=[undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined];
-            render();
+            setTimeout(function(){
+                gameStart(); 
+           }, 2000);
+            
+            return 'win';
         }
         else if (result == 'draw')
         {
-            alert(`game drawn`)
+            announcewinner('draw');
             gameArray=[undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined,undefined];
-            render();
+            setTimeout(function(){
+                gameStart();
+           }, 2000);
+            return 'draw';
         }
         
     }
